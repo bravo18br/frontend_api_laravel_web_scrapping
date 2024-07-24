@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HelloWorld from '../components/HelloWorld.vue';
+import ComponenteUm from '../components/ComponenteUm.vue';
 
 const routes = [
   {
@@ -7,7 +8,11 @@ const routes = [
     name: 'HelloWorld',
     component: HelloWorld,
   },
-  // Adicione mais rotas conforme necessário
+  {
+    path: '/dois',
+    name: 'ComponenteUm',
+    component: ComponenteUm,
+  },
 ];
 
 const router = createRouter({
