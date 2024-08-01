@@ -1,41 +1,59 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="lHh Lpr lFf" class="bg-grey-9 text-white">
+    <q-header elevated class="bg-grey-6">
       <q-toolbar>
         <q-btn
           flat
           dense
           round
-          icon="menu"
-          aria-label="Menu"
           @click="toggleLeftDrawer"
+          aria-label="Menu"
+          icon="menu"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title> Homelab Família Klein </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
+    <q-drawer v-model="leftDrawerOpen" show-if-above class="bg-grey-8">
+      <q-list dark>
+        <q-item-label header>Menu</q-item-label>
+        <q-item
+          clickable
+          target="_blank"
+          rel="noopener"
+          href="http://192.168.1.2/firefly3"
         >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
+          <q-item-section avatar>
+            <q-img
+              src="~assets/images/pihole.png"
+              alt="Pihole Icon"
+              style="width: 32px; height: 32px"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Firefly 3</q-item-label>
+            <q-item-label caption>http://192.168.1.2/firefly3</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          target="_blank"
+          rel="noopener"
+          href="https://quasar.dev"
+        >
+          <q-item-section avatar>
+            <q-img
+              src="~assets/images/icone_pihole.png"
+              alt="Pihole Icon"
+              style="width: 32px; height: 32px"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Pihole</q-item-label>
+            <q-item-label caption>http://192.168.1.2/pihole</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -45,62 +63,23 @@
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<script>
+import { ref } from "vue";
 
-defineOptions({
-  name: 'MainLayout'
-})
+export default {
+  name: "MyLayout",
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+  setup() {
+    const leftDrawerOpen = ref(false);
 
-const leftDrawerOpen = ref(false)
+    function toggleLeftDrawer() {
+      leftDrawerOpen.value = !leftDrawerOpen.value;
+    }
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+    return {
+      leftDrawerOpen,
+      toggleLeftDrawer,
+    };
+  },
+};
 </script>
