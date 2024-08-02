@@ -82,7 +82,7 @@
         </router-link>
 
         <router-link to="/monitorasites" class="q-item">
-          <q-item>
+          <q-item >
             <q-item-section avatar>
               <q-img
                 src="~assets/images/monitorasites-64x64.png"
