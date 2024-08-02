@@ -10,7 +10,9 @@
           aria-label="Menu"
           icon="menu"
         />
-
+        <q-avatar size="32px" class="q-mr-sm">
+          <q-img src="~assets/images/klein-64x64.png" alt="Homelab Avatar" />
+        </q-avatar>
         <q-toolbar-title> Homelab Família Klein </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -26,9 +28,9 @@
         >
           <q-item-section avatar>
             <q-img
-              src="~assets/images/pihole.png"
-              alt="Pihole Icon"
-              style="width: 32px; height: 32px"
+              src="~assets/images/fireflyiii-64x64.png"
+              alt="Firefly3 Icon"
+              style="width: 64px; height: 64px"
             />
           </q-item-section>
           <q-item-section>
@@ -44,14 +46,32 @@
         >
           <q-item-section avatar>
             <q-img
-              src="~assets/images/icone_pihole.png"
+              src="~assets/images/pihole-64x64.png"
               alt="Pihole Icon"
-              style="width: 32px; height: 32px"
+              style="width: 64px; height: 64px"
             />
           </q-item-section>
           <q-item-section>
             <q-item-label>Pihole</q-item-label>
             <q-item-label caption>http://192.168.1.2/pihole</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          target="_blank"
+          rel="noopener"
+          href="https://quasar.dev"
+        >
+          <q-item-section avatar>
+            <q-img
+              src="~assets/images/bitwarden-64x64.png"
+              alt="Bitwarden Icon"
+              style="width: 64px; height: 64px"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Bitwarden</q-item-label>
+            <q-item-label caption>http://192.168.1.2/bitwarden</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

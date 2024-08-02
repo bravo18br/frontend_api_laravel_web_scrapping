@@ -1,16 +1,16 @@
 <template>
   <q-page class="flex flex-center column">
     <img
-      alt="Klein logo"
-      src="~assets/images/klein-450x450.png"
+      alt="Firefly3 logo"
+      src="~assets/images/fireflyiii-450x450.png"
       style="width: 200px; height: 200px"
     >
-    <p class="text-h4 q-mt-md">Homelab Família Klein</p>
+    <p class="text-h4 q-mt-md">Firefly 3</p>
   </q-page>
 </template>
 
 <script setup>
 defineOptions({
-  name: 'IndexPage'
+  name: 'IndexPageFirefly3'
 });
 </script>
