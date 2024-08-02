@@ -20,60 +20,82 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above class="bg-grey-8">
       <q-list dark>
         <q-item-label header>Menu</q-item-label>
-        <q-item
-          clickable
-          target="_blank"
-          rel="noopener"
-          href="http://192.168.1.2/firefly3"
-        >
-          <q-item-section avatar>
-            <q-img
-              src="~assets/images/fireflyiii-64x64.png"
-              alt="Firefly3 Icon"
-              style="width: 64px; height: 64px"
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Firefly 3</q-item-label>
-            <q-item-label caption>http://192.168.1.2/firefly3</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          target="_blank"
-          rel="noopener"
-          href="https://quasar.dev"
-        >
-          <q-item-section avatar>
-            <q-img
-              src="~assets/images/pihole-64x64.png"
-              alt="Pihole Icon"
-              style="width: 64px; height: 64px"
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Pihole</q-item-label>
-            <q-item-label caption>http://192.168.1.2/pihole</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item
-          clickable
-          target="_blank"
-          rel="noopener"
-          href="https://quasar.dev"
-        >
-          <q-item-section avatar>
-            <q-img
-              src="~assets/images/bitwarden-64x64.png"
-              alt="Bitwarden Icon"
-              style="width: 64px; height: 64px"
-            />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Bitwarden</q-item-label>
-            <q-item-label caption>http://192.168.1.2/bitwarden</q-item-label>
-          </q-item-section>
-        </q-item>
+
+        <router-link to="/" class="q-item">
+          <q-item>
+            <q-item-section avatar>
+              <q-img
+                src="~assets/images/klein-64x64.png"
+                alt="Home Icon"
+                style="width: 64px; height: 64px"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Homelab Família Klein</q-item-label>
+            </q-item-section>
+          </q-item>
+        </router-link>
+
+        <router-link to="/firefly3" class="q-item">
+          <q-item>
+            <q-item-section avatar>
+              <q-img
+                src="~assets/images/fireflyiii-64x64.png"
+                alt="Firefly3 Icon"
+                style="width: 64px; height: 64px"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Firefly 3</q-item-label>
+            </q-item-section>
+          </q-item>
+        </router-link>
+
+        <router-link to="/pihole" class="q-item">
+          <q-item>
+            <q-item-section avatar>
+              <q-img
+                src="~assets/images/pihole-64x64.png"
+                alt="Pihole Icon"
+                style="width: 64px; height: 64px"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Pihole</q-item-label>
+            </q-item-section>
+          </q-item>
+        </router-link>
+
+        <router-link to="/bitwarden" class="q-item">
+          <q-item>
+            <q-item-section avatar>
+              <q-img
+                src="~assets/images/bitwarden-64x64.png"
+                alt="Bitwarden Icon"
+                style="width: 64px; height: 64px"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Bitwarden</q-item-label>
+            </q-item-section>
+          </q-item>
+        </router-link>
+
+        <router-link to="/monitorasites" class="q-item">
+          <q-item>
+            <q-item-section avatar>
+              <q-img
+                src="~assets/images/monitorasites-64x64.png"
+                alt="MonitoraSites Icon"
+                style="width: 64px; height: 64px"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Monitora Sites</q-item-label>
+            </q-item-section>
+          </q-item>
+        </router-link>
+
       </q-list>
     </q-drawer>
 
