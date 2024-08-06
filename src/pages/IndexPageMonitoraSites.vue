@@ -70,6 +70,8 @@
                     title="Alvos"
                     :rows="rows"
                     :columns="columns"
+                    :rows-per-page-options="[10, 20, 30, 50, 100]"
+                    v-model:pagination="pagination"
                   >
                     <template v-slot:header="props">
                       <q-tr :props="props">
@@ -129,6 +131,8 @@
                   :rows="rows"
                   :columns="columns_editar"
                   row-key="id"
+                  :rows-per-page-options="[10, 20, 30, 50, 100]"
+                  v-model:pagination="pagination"
                 >
                   <template v-slot:body-cell-action="props">
                     <q-td :props="props">
@@ -157,7 +161,11 @@
           <!-- NOVO - Criar novo alvo-->
           <q-tab-panel name="novo">
             <div style="color: black">
-              <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+              <q-form
+                @submit="criarAlvo"
+                @reset="resetForm"
+                class="q-gutter-md"
+              >
                 <q-input
                   v-model="novoName"
                   label="Nome"
@@ -356,7 +364,10 @@ export default {
     ];
 
     const rows = ref([]); // Initialize rows as a reactive reference
-
+    const pagination = ref({
+      page: 1,
+      rowsPerPage: 10, // Define quantas linhas serão exibidas por página
+    });
     // Check the status on mount and set interval to check every 60 seconds
     onMounted(() => {
       checkCoreStatus();
@@ -389,27 +400,33 @@ export default {
     const novoUrl = ref(null);
     const novoElemento = ref(null);
 
-    const onReset = () => {
+    const resetForm = () => {
       novoName.value = null;
       novoElemento.value = null;
       novoUrl.value = null;
     };
 
-    const onSubmit = async () => {
+    const criarAlvo = async () => {
       try {
         const novoAlvo = {
           nome: novoName.value,
           url: novoUrl.value,
           elemento: novoElemento.value,
         };
-        console.log(novoAlvo);
         const response = await axios.post(apiUrl + "/api/alvo", novoAlvo);
         if (response.status === 201) {
           await loadListaAlvos();
-          onReset();
+          resetForm();
           Notify.create({
             type: "positive",
             message: "Alvo criado corretamente!",
+          });
+        }
+        if (response.status === 422) {
+          resetForm();
+          Notify.create({
+            type: "negative",
+            message: "URL inválida",
           });
         }
       } catch (error) {
@@ -427,11 +444,12 @@ export default {
       columns_editar,
       editarAlvo,
       excluirAlvo,
-      onReset,
-      onSubmit,
+      resetForm,
+      criarAlvo,
       novoName,
       novoUrl,
       novoElemento,
+      pagination,
     };
   },
 };
