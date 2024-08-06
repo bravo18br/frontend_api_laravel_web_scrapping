@@ -9,19 +9,21 @@
             style="width: 100px; height: 100px; padding: 8px"
           />
         </div>
-        <div class="col-6 flex flex-center column">
-          <p
-            :style="{ color: statusCore === 'OK' ? 'green' : 'red' }"
-            style="margin-bottom: 0"
-          >
-            Status API Core: {{ statusCore }}
-          </p>
-          <p
-            :style="{ color: statusWPPConnect === 'OK' ? 'green' : 'red' }"
-            style="margin-bottom: 0"
-          >
-            Status WPPConnect: {{ statusWPPConnect }}
-          </p>
+        <div class="col-6 flex flex-center">
+          <div class="flex column">
+            <p
+              :style="{ color: statusCore === 'OK' ? 'green' : 'red' }"
+              style="margin-bottom: 0"
+            >
+              Status API Core: {{ statusCore }}
+            </p>
+            <p
+              :style="{ color: statusWPPConnect === 'OK' ? 'green' : 'red' }"
+              style="margin-bottom: 0"
+            >
+              Status WPPConnect: {{ statusWPPConnect }}
+            </p>
+          </div>
         </div>
       </q-card>
     </div>
@@ -46,6 +48,7 @@
 
         <q-separator />
 
+        <!-- LISTAR - Busca e exibe todos os alvos registrados-->
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="lista">
             <div style="color: black">
@@ -117,12 +120,83 @@
             </div>
           </q-tab-panel>
 
+          <!-- EDITAR - Editar ou Excluir alvo -->
           <q-tab-panel name="editar">
-            <div style="color: black">Form para EDITAR um item de alvo</div>
+            <div style="color: black">
+              <div class="q-pa-md">
+                <q-table
+                  title="Alvos"
+                  :rows="rows"
+                  :columns="columns_editar"
+                  row-key="id"
+                >
+                  <template v-slot:body-cell-action="props">
+                    <q-td :props="props">
+                      <q-btn
+                        icon="create"
+                        color="primary"
+                        size="sm"
+                        @click="editarAlvo(props.row)"
+                      >
+                      </q-btn>
+                      <q-btn
+                        icon="delete"
+                        color="negative"
+                        size="sm"
+                        class="q-ml-sm"
+                        @click="excluirAlvo(props.row)"
+                      >
+                      </q-btn>
+                    </q-td>
+                  </template>
+                </q-table>
+              </div>
+            </div>
           </q-tab-panel>
 
+          <!-- NOVO - Criar novo alvo-->
           <q-tab-panel name="novo">
-            <div style="color: black">Form para CRIAR um novo item de alvo</div>
+            <div style="color: black">
+              <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+                <q-input
+                  v-model="novoName"
+                  label="Nome"
+                  hint="Nome do Alvo"
+                  lazy-rules
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Campo obrigatório',
+                  ]"
+                />
+                <q-input
+                  v-model="novoUrl"
+                  label="Url"
+                  hint="URL do Alvo"
+                  lazy-rules
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Campo obrigatório',
+                  ]"
+                />
+                <q-input
+                  v-model="novoElemento"
+                  label="Elemento"
+                  hint="Elemento tag de filtro do conteúdo do Alvo"
+                  lazy-rules
+                  :rules="[
+                    (val) => (val && val.length > 0) || 'Campo obrigatório',
+                  ]"
+                />
+                <div>
+                  <q-btn label="Salvar" type="submit" color="primary" />
+                  <q-btn
+                    label="Limpar"
+                    type="reset"
+                    color="primary"
+                    flat
+                    class="q-ml-sm"
+                  />
+                </div>
+              </q-form>
+            </div>
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
@@ -133,6 +207,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { Notify } from "quasar";
 
 export default {
   setup() {
@@ -239,6 +314,47 @@ export default {
       },
     ];
 
+    const columns_editar = [
+      {
+        name: "id",
+        required: true,
+        label: "ID",
+        align: "left",
+        field: (row) => row.id,
+        sortable: true,
+      },
+      {
+        name: "nome",
+        required: true,
+        label: "Nome",
+        align: "left",
+        field: (row) => row.nome,
+        sortable: true,
+      },
+      {
+        name: "url",
+        required: true,
+        label: "URL",
+        align: "left",
+        field: (row) => row.url,
+        sortable: true,
+      },
+      {
+        name: "elemento",
+        required: true,
+        label: "Elemento",
+        align: "left",
+        field: (row) => row.elemento,
+        sortable: true,
+      },
+      {
+        name: "action",
+        required: true,
+        label: "Ações",
+        align: "center",
+      },
+    ];
+
     const rows = ref([]); // Initialize rows as a reactive reference
 
     // Check the status on mount and set interval to check every 60 seconds
@@ -252,6 +368,55 @@ export default {
       }, 60000); // 60000 ms = 60 seconds
     });
 
+    const editarAlvo = (dadosLinha) => {
+      const id = dadosLinha.id;
+      console.log("Editar: ", id);
+    };
+
+    const excluirAlvo = async (dadosLinha) => {
+      try {
+        const id = dadosLinha.id;
+        const response = await axios.delete(apiUrl + "/api/alvo/" + id);
+        if (response.status === 204) {
+          await loadListaAlvos();
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    const novoName = ref(null);
+    const novoUrl = ref(null);
+    const novoElemento = ref(null);
+
+    const onReset = () => {
+      novoName.value = null;
+      novoElemento.value = null;
+      novoUrl.value = null;
+    };
+
+    const onSubmit = async () => {
+      try {
+        const novoAlvo = {
+          nome: novoName.value,
+          url: novoUrl.value,
+          elemento: novoElemento.value,
+        };
+        console.log(novoAlvo);
+        const response = await axios.post(apiUrl + "/api/alvo", novoAlvo);
+        if (response.status === 201) {
+          await loadListaAlvos();
+          onReset();
+          Notify.create({
+            type: "positive",
+            message: "Alvo criado corretamente!",
+          });
+        }
+      } catch (error) {
+        Notify.create({ type: "negative", message: `Erro: ${error.message}` });
+      }
+    };
+
     return {
       tab,
       statusCore,
@@ -259,6 +424,14 @@ export default {
       isLoading,
       columns,
       rows,
+      columns_editar,
+      editarAlvo,
+      excluirAlvo,
+      onReset,
+      onSubmit,
+      novoName,
+      novoUrl,
+      novoElemento,
     };
   },
 };
